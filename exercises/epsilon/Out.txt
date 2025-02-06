@@ -1,0 +1,14 @@
+My max int = 2147483647
+int.MaxValue = 2147483647
+Match: True
+My min int = -2147483648
+int.MinValue = -2147483648
+Match: True
+Machine epsilon for double: 2.22044604925031E-16
+Machine epsilon for float: 1.192093E-07
+2^-52: 2.22044604925031E-16
+2^-23: 1.19209289550781E-07
+a==b ? False
+a>1  ? False
+b>1  ? True
+d1==d2 ? True
