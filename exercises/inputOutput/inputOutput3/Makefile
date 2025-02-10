@@ -1,36 +1,22 @@
-.PHONY: all run-tests test clean
+.PHONY: all clean
 
-# Default target builds main.exe and runs the tests.
-all: run-tests
+# The default target builds main.exe and then runs the program to create Out.txt
+all: Out.txt
 
-# run-tests builds Out.txt by running several tests.
-Out.txt: Makefile main.exe input.txt
-	@echo "Truncating log file..."
-	@> log
-	@echo "hello" > $@
-	@echo "1,2 3,4 5,6" | sed --expression="s/,/\./g" >> $@
-	@echo "hello world from stdin" | mono main.exe 23,23, 44,44 55,55 1>> $@ 2> log
-	@cat input.txt | mono main.exe 1>> $@ 2>> log
-	@mono main.exe < input.txt 1>> $@ 2>> log
-	@echo "" | mono main.exe -input:input.txt -output:$@ 2>> log
+# Out.txt depends on main.exe and input.txt
+Out.txt: main.exe input.txt
+	@echo "Running main.exe with arguments from input.txt..."
+	@mono main.exe -input:input.txt -output:Out.txt
 
-# Generate input.txt from the Makefile
-input.txt: Makefile
-	@echo "these go $@" > $@
 
-# Compile the main program
+# Compile main.exe from main.cs
 main.exe: main.cs
-	mcs -target:exe -out:$@ $<
+	mcs -target:exe -out:main.exe main.cs
 
-# An example test target (you can add more commands as needed)
-test:
-	@echo "Test target: \$@"
-	@echo '$@'
-	@echo "$@"
+# Create an input file with the command-line argument
+input.txt:
+	@echo "-numbers:1,2,3,4,5" > input.txt
 
 # Clean up generated files
 clean:
-	rm -f *.exe *.txt log
-
-# Convenience target for running tests
-run-tests: Out.txt
+	rm -f main.exe Out.txt input.txt

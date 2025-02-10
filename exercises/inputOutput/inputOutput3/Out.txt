@@ -1,6 +1,6 @@
-hello
-1.2 3.4 5.6
-sdtout: 23,23,
-sdtout: 44,44
-sdtout: 55,55
-line for instream: these go input.txt
+x 	 sin(x) 	 cos(x)
+1.0 	 0.841 	 0.540
+2.0 	 0.909 	 -0.416
+3.0 	 0.141 	 -0.990
+4.0 	 -0.757 	 -0.654
+5.0 	 -0.959 	 0.284

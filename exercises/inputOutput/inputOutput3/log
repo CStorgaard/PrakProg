@@ -1,9 +1,0 @@
-stderr: 23,23,
-stderr: 44,44
-stderr: 55,55
-inputfile:   outputfile:  
-inputfile:   outputfile:  
-inputfile:   outputfile:  
-stderr: -input:input.txt
-stderr: -output:Out.txt
-inputfile: input.txt outputfile: Out.txt
