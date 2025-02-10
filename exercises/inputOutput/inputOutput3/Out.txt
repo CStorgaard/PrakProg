@@ -1,0 +1,6 @@
+hello
+1.2 3.4 5.6
+sdtout: 23,23,
+sdtout: 44,44
+sdtout: 55,55
+line for instream: these go input.txt
