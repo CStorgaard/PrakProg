@@ -1,0 +1,6 @@
+Square root of -1 is (0, 1)
+Natural logarithm of i is (0, 1.5707963267949)
+Square root of i is (0.707106781186548, 0.707106781186547)
+i to the power of i is (0.207879576350762, 0)
+Hyperbolic sine of i is (0, 0.841470984807897)
+Hyperbolic cosine of i is (0.54030230586814, 0)

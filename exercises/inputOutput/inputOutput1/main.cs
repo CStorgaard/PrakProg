@@ -1,7 +1,6 @@
 using static System.Math;
 using static System.Console;
 
-
 public class Program {
 public static void Main(string[] args) {
     foreach(var arg in args) {
