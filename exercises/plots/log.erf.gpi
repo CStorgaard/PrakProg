@@ -1,0 +1,11 @@
+\
+set term svg background rgb "white";\
+set out "plot.erf.svg";\
+set key out;\
+set tics out;\
+set title "Error function";\
+set xlabel "x";\
+set ylabel "y";\
+plot "data.txt" using 1:2 index 0 with lines title "Error function"\
+,"erf.data" using 1:2 index 0 with points title "Error function data"\
+

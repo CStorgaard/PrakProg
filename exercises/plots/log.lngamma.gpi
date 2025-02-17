@@ -1,0 +1,11 @@
+\
+set term svg background rgb "white";\
+set out "plot.lngamma.svg";\
+set key out;\
+set tics out;\
+set title "LogΓ function";\
+set xlabel "x";\
+set ylabel "";\
+plot "data.txt" using 1:2 index 2 with lines title "LogΓ function",\
+     "data.txt" using 1:2 index 4 with points title " log factorials"\
+

@@ -1,0 +1,11 @@
+\
+set term svg background rgb "white";\
+set out "plot.gamma.svg";\
+set key out;\
+set tics out;\
+set title "Γ function";\
+set xlabel "x";\
+set ylabel "";\
+plot "data.txt" using 1:2 index 1 with lines title "Γ function",\
+     "data.txt" using 1:2 index 3 with points title "factorials"\
+

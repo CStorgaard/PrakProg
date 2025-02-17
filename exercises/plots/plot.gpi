@@ -1,0 +1,3 @@
+set terminal svg background "white"
+set output "plot.test.svg"
+plot sin(x)
