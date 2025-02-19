@@ -1,5 +1,6 @@
 using System;
 using static System.Math;
+using System.Numerics;
 
 class main {
     public static int Main() {
@@ -17,9 +18,8 @@ class main {
         System.Console.WriteLine();
 
         for (double x = dx; x <= 10; x += dx) {
-            System.Console.WriteLine($"{x} {sfuns.lngamma(x)}");
+            Console.WriteLine($"{x} {sfuns.lngamma(x).Real}");
         }
-
         System.Console.WriteLine();
         System.Console.WriteLine();
 
@@ -28,7 +28,6 @@ class main {
             f *= i;
             System.Console.WriteLine($"{i + 1} {f}");
         }
-
         System.Console.WriteLine();
         System.Console.WriteLine();
 

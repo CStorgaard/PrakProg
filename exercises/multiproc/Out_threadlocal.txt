@@ -1,0 +1,6 @@
+Parallel.For with ThreadLocal:
+Computing harmonic sum using Parallel.For with ThreadLocal:
+ThreadLocal Parallel.For computed sum = 18.9978964138503
+real 0.58
+user 1.76
+sys 0.03

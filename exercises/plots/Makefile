@@ -1,11 +1,12 @@
 CXXFLAGS += -std=c++23 -Wall
 LDLIBS += -lstdc++
 CODE = $(filter %.cs,$^)
-LIBS = $(addprefix -reference:,$(filter %.dll,$^))
+# Add reference to System.Numerics.dll explicitly.
+LIBS = $(addprefix -reference:,$(filter %.dll,$^)) -r:System.Numerics.dll
 MKEXE = mcs -target:exe -out:$@ $(LIBS) $(CODE)
 MKLIB = mcs -target:library -out:$@ $(LIBS) $(CODE)
 
-all: plot.test.svg
+all: plot.test.svg plot.cgamma.svg
 
 plot.erf.svg: data.txt Makefile
 	echo '\
@@ -30,7 +31,7 @@ plot.gamma.svg: data.txt Makefile
 	set xlabel "x";\
 	set ylabel "";\
 	plot "$<" using 1:2 index 1 with lines title "Γ function",\
-	     "$<" using 1:2 index 3 with points title "factorials"\
+	     "$<" using 1:2 index 3 with points title "Γ function data"\
 	' | tee log.gamma.gpi | gnuplot
 
 plot.lngamma.svg: data.txt Makefile
@@ -50,7 +51,7 @@ data.txt: main.exe
 	mono $< > $@
 
 plot.test.svg: plot.gpi
-	gnuplot $< > $@  
+	gnuplot $< > $@
 
 sfuns.dll: sfuns.cs 
 	$(MKLIB)  

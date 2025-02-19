@@ -7,5 +7,5 @@ set title "Γ function";\
 set xlabel "x";\
 set ylabel "";\
 plot "data.txt" using 1:2 index 1 with lines title "Γ function",\
-     "data.txt" using 1:2 index 3 with points title "factorials"\
+     "data.txt" using 1:2 index 3 with points title "Γ function data"\
 

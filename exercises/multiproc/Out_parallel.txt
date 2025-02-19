@@ -1,0 +1,6 @@
+Flawed Parallel.For version (shared variable):
+Computing harmonic sum using flawed Parallel.For (shared variable race condition):
+Flawed Parallel.For computed sum = 14.9050081664312
+real 1.71
+user 5.98
+sys 0.03
