@@ -1,0 +1,22 @@
+Exercise A
+Checking Jacobi diagonalization
+Input Matrix:
+1 2
+2 4
+Eigenvalues:
+0 5
+Normalized eigenvectors:
+0.894427190999916 0.447213595499958
+-0.447213595499958 0.894427190999916
+Diagonal matrix:
+0 0
+0 5
+Reconstructed matrix:
+1 2
+2 4
+V*V^T:
+1 0
+0 1
+V^T*V:
+1 0
+0 1
