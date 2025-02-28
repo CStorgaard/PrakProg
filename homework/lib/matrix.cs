@@ -447,6 +447,31 @@ public class Mat
         return (w, V);
     }
 
+    public static (Vec, Mat) Sort(Vec eigenvalues, Mat eigenvectors)
+{
+    int n = eigenvalues.Length;
+    // Create an array of indices.
+    int[] indices = new int[n];
+    for (int i = 0; i < n; i++)
+        indices[i] = i;
+    
+    // Sort the indices based on the corresponding eigenvalue.
+    Array.Sort(indices, (i, j) => eigenvalues[i].CompareTo(eigenvalues[j]));
+
+    // Create new sorted eigenvalues and eigenvectors.
+    Vec sortedEigenvalues = new Vec(n);
+    Mat sortedEigenvectors = new Mat(eigenvectors.Rows, eigenvectors.Cols);
+    for (int k = 0; k < n; k++)
+    {
+        sortedEigenvalues[k] = eigenvalues[indices[k]];
+        for (int row = 0; row < eigenvectors.Rows; row++)
+        {
+            sortedEigenvectors[row, k] = eigenvectors[row, indices[k]];
+        }
+    }
+    return (sortedEigenvalues, sortedEigenvectors);
+}
+
 
     /// <summary>
     /// Checks if two matrices are approximately equal element-wise.
