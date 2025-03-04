@@ -1,0 +1,4 @@
+Data points written to dataPoints.txt
+Spline results written to linearSplineResults.txt
+Quadratic spline results written to quadraticSplineResults.txt
+Cubic spline results written to cubicSplineResults.txt
