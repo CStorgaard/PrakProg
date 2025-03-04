@@ -447,30 +447,92 @@ public class Mat
         return (w, V);
     }
 
-    public static (Vec, Mat) Sort(Vec eigenvalues, Mat eigenvectors)
-{
-    int n = eigenvalues.Length;
-    // Create an array of indices.
-    int[] indices = new int[n];
-    for (int i = 0; i < n; i++)
-        indices[i] = i;
-    
-    // Sort the indices based on the corresponding eigenvalue.
-    Array.Sort(indices, (i, j) => eigenvalues[i].CompareTo(eigenvalues[j]));
-
-    // Create new sorted eigenvalues and eigenvectors.
-    Vec sortedEigenvalues = new Vec(n);
-    Mat sortedEigenvectors = new Mat(eigenvectors.Rows, eigenvectors.Cols);
-    for (int k = 0; k < n; k++)
+    /// <summary>
+    /// Performs a weighted least squares fit for a set of basis functions.
+    /// 
+    /// Given:
+    ///   - fs: an array of function delegates f_k(x)
+    ///   - x:  vector of x-values
+    ///   - y:  vector of y-values
+    ///   - dy: vector of uncertainties in y-values
+    /// 
+    /// The routine constructs a weighted design matrix A and a weighted vector b, then
+    /// solves the linear system (A^T * A) * c = A^T * b in a least squares sense using QR.
+    /// 
+    /// Returns:
+    ///   (c, Cov)
+    /// where c is the vector of fitted coefficients and Cov is the covariance matrix (A^T A)^(-1).
+    /// </summary>
+    public static (Vec, Mat) LsFit(Func<double, double>[] fs, Vec x, Vec y, Vec dy)
     {
-        sortedEigenvalues[k] = eigenvalues[indices[k]];
-        for (int row = 0; row < eigenvectors.Rows; row++)
+        // 1. Validate inputs.
+        int n = x.Length;     // Number of data points
+        int m = fs.Length;    // Number of basis functions
+        if (y.Length != n || dy.Length != n)
+            throw new ArgumentException("Input vectors must have the same length.");
+        
+        // 2. Construct the weighted design matrix A (size n x m) and the weighted vector b (size n).
+        Mat A = new Mat(n, m);
+        Vec bVec = new Vec(n);
+
+        for (int i = 0; i < n; i++)
         {
-            sortedEigenvectors[row, k] = eigenvectors[row, indices[k]];
+            // Weight the right-hand side by 1/dy[i].
+            bVec[i] = y[i] / dy[i];
+            
+            // Each row i of A is [f_0(x_i)/dy[i], f_1(x_i)/dy[i], ..., f_{m-1}(x_i)/dy[i]].
+            for (int k = 0; k < m; k++)
+            {
+                A[i, k] = fs[k](x[i]) / dy[i];
+            }
         }
+
+        // 3. Form A^T * A and A^T * b, then solve for c in the least squares sense.
+        Mat At = A.Transpose();
+        Mat AtA = At * A;   // (m x m)
+        Vec Atb = At * bVec; // (m)
+
+        // Use your QR-based SolveQR method on the square system AtA * c = Atb.
+        // This returns the least squares solution that minimizes ||A*c - bVec||^2.
+        Vec c = AtA.SolveQR(Atb);
+
+        // 4. Compute the covariance matrix Cov = (A^T * A)^(-1).
+        //    The diagonal of this matrix often gives the variance of each coefficient.
+        Mat Cov = AtA.Inverse();
+
+        // 5. Return the tuple (coefficients, covariance matrix).
+        return (c, Cov);
     }
-    return (sortedEigenvalues, sortedEigenvectors);
-}
+
+
+
+    /// <summary>
+    /// Sorts the eigenvalues and eigenvectors in ascending order.
+    /// </summary>
+        public static (Vec, Mat) Sort(Vec eigenvalues, Mat eigenvectors)
+    {
+        int n = eigenvalues.Length;
+        // Create an array of indices.
+        int[] indices = new int[n];
+        for (int i = 0; i < n; i++)
+            indices[i] = i;
+        
+        // Sort the indices based on the corresponding eigenvalue.
+        Array.Sort(indices, (i, j) => eigenvalues[i].CompareTo(eigenvalues[j]));
+
+        // Create new sorted eigenvalues and eigenvectors.
+        Vec sortedEigenvalues = new Vec(n);
+        Mat sortedEigenvectors = new Mat(eigenvectors.Rows, eigenvectors.Cols);
+        for (int k = 0; k < n; k++)
+        {
+            sortedEigenvalues[k] = eigenvalues[indices[k]];
+            for (int row = 0; row < eigenvectors.Rows; row++)
+            {
+                sortedEigenvectors[row, k] = eigenvectors[row, indices[k]];
+            }
+        }
+        return (sortedEigenvalues, sortedEigenvectors);
+    }
 
 
     /// <summary>
