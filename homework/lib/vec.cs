@@ -163,6 +163,17 @@ public class Vec
     public static double Dot(Vec u, Vec v) => u.Dot(v);
 
     /// <summary>
+    /// Copies the vector.
+    /// </summary>
+    public Vec Copy()
+    {
+        Vec copy = new Vec(Length);
+        for (int i = 0; i < Length; i++)
+            copy[i] = this[i];
+        return copy;
+    }
+
+    /// <summary>
     /// Approximate equality comparison for doubles.
     /// </summary>
     public static bool Approx(double a, double b, double acc = 1e-9, double eps = 1e-9)
