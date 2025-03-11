@@ -117,7 +117,7 @@ class Program
         Func<double, Vec> ip2 = Interpolator.MakeOdeIvpInterpolant(makePlanetOrbitGR(gamma2), interval, yStart2, hstart, acc, eps);
 
         // Scenario 3: gamma = 0.01, u(0)=1, u'(0)=-0.5.
-        double gamma3 = 0.01;
+        double gamma3 = 0.05;
         Vec yStart3 = new Vec(new double[] { 1.0, -0.5 });
         Func<double, Vec> ip3 = Interpolator.MakeOdeIvpInterpolant(makePlanetOrbitGR(gamma3), interval, yStart3, hstart, acc, eps);
 
