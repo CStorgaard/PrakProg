@@ -1,0 +1,14 @@
+Integral of sqrt(x) [0:1] is approximately: 0.666953909054655 with estimated error: 0.000771648711419333
+Function evaluations: 16
+Integral of 1/sqrt(x) [0:1] is approximately: 1.99996150007805 with estimated error: 0.0013057261303539
+Function evaluations: 8000
+Integral of 4*sqrt(1-x^2) [0:1] is approximately: 3.14183457802727 with estimated error: 0.00251182601633047
+Function evaluations: 28
+Integral of ln(x)/sqrt(x) [0:1] is approximately: -3.99991705899915 with estimated error: 0.00365625914761678
+Function evaluations: 8024
+The error function values (with estimated errors) have been written to 'erf.txt'.
+Integral of 1/sqrt(x) [0:1] using Clenshaw-Curtis transformation is approximately: 1.99999201046432 with estimated error: 0.00215182056720623
+Function evaluations: 16
+Integral of ln(x) / sqrt(x) [0:1] using Clenshaw-Curtis transformation is approximately: -3.99987385646141 with estimated error: 0.00373605882543345
+Function evaluations: 96
+Scipy uses 231 function evaluations for the same integrals.
