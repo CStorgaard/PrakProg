@@ -1,7 +1,7 @@
 ##############################################################################
 # Paths
 ##############################################################################
-LIB_DIR = /home/fyn/repos/PrakProg/homework/lib
+LIB_DIR = ../lib
 
 ##############################################################################
 # Output
@@ -33,6 +33,8 @@ erf.svg: erf.txt Makefile
 	set title "Error function";\
 	set xlabel "x";\
 	set ylabel "erf(x)";\
+	set log y;\
+	set log x;\
 	set key top left;\
 	set grid xtics ytics;\
 	plot "erf.txt" using 1:2:3 with yerrorlines title "erf(x)"\

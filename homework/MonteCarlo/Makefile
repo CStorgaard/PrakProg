@@ -12,27 +12,29 @@ Out.txt: main.exe
 ##############################################################################
 # Build main.exe
 ##############################################################################
-main.exe: main.cs $(LIB_DIR)/vec.dll $(LIB_DIR)/matrix.dll
-	cp $(LIB_DIR)/vec.dll .
-	cp $(LIB_DIR)/matrix.dll .
-	mcs -target:exe -out:main.exe -reference:$(LIB_DIR)/vec.dll -reference:$(LIB_DIR)/matrix.dll main.cs
-
-$(LIB_DIR)/vec.dll: $(LIB_DIR)/vec.cs
-	mcs -target:library -out:$(LIB_DIR)/vec.dll $(LIB_DIR)/vec.cs
-
-$(LIB_DIR)/matrix.dll: $(LIB_DIR)/matrix.cs $(LIB_DIR)/vec.dll
-	mcs -target:library -out:$(LIB_DIR)/matrix.dll -reference:$(LIB_DIR)/vec.dll $(LIB_DIR)/matrix.cs
+main.exe: main.cs $(LIB_DIR)/MonteCarlo.dll
+	# Copy the integrator library to the current directory
+	cp $(LIB_DIR)/MonteCarlo.dll .
+	# Compile main.cs referencing only integrator.dll
+	mcs -target:exe -out:main.exe -reference:$(LIB_DIR)/MonteCarlo.dll main.cs
 
 ##############################################################################
-# Plot target
+# Build integrator.dll
 ##############################################################################
-plot: main.exe
-    #1) Run the program to produce dataPoints.txt and fitPoints.txt
-	mono main.exe
-    # 2) Call Gnuplot with the script
-	gnuplot plot.gp
-	@echo "Plot generated as decayFit.svg"
+$(LIB_DIR)/MonteCarlo.dll: $(LIB_DIR)/montecarlo.cs
+	mcs -target:library -out:$(LIB_DIR)/MonteCarlo.dll $(LIB_DIR)/montecarlo.cs
 
+##############################################################################
+# Plotting
+##############################################################################
+pi.svg: pi_results.txt pi.gp
+	gnuplot pi.gp
+
+quasi_pi.svg: pi_results_quasi.txt quasi_pi.gp
+	gnuplot quasi_pi.gp
+
+all: pi.svg quasi_pi.svg
+	@echo "Plots generated: pi.svg and quasi_pi.svg"
 ##############################################################################
 # Housekeeping
 ##############################################################################
@@ -40,4 +42,4 @@ clean:
 	rm -f *.txt *.dll *.exe *.svg
 
 test:
-	@echo rm -f main.exe vec.dll matrix.dll
+	@echo rm -f main.exe integrator.dll

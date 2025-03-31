@@ -1,4 +1,4 @@
-LIB_DIR = /home/fyn/repos/PrakProg/homework/lib
+LIB_DIR = ../lib
 
 Out.txt: main.exe
 	MONO_PATH=$(LIB_DIR) mono $< > $@
