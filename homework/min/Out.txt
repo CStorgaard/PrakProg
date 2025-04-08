@@ -1,0 +1,26 @@
+Rosenbrock minimum:
+  x = 0.999985867733224
+  y = 0.999971716122973
+  Iterations: 18
+
+Rosenbrock minimum (central differences):
+  x = 0.999996908925816
+  y = 0.999993808009423
+  Iterations: 19
+
+Himmelblau minimum:
+  x = 3.00000005110857
+  y = 1.99999994940128
+  Iterations: 5
+
+Himmelblau minimum (central differences):
+  x = 3.00000000163515
+  y = 1.99999999289003
+  Iterations: 5
+
+Best-fit parameters for Breit-Wigner:
+  Mass m         = 124.698166137984 GeV/c²
+  Width Γ        = 9.49585160986802 GeV/c² (experimental upper limit)
+  Scale factor A = 78.5670267611913
+  Iterations     = 50
+Plot data written to plot.dat
