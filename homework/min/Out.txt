@@ -19,8 +19,8 @@ Himmelblau minimum (central differences):
   Iterations: 5
 
 Best-fit parameters for Breit-Wigner:
-  Mass m         = 124.698166137984 GeV/c²
-  Width Γ        = 9.49585160986802 GeV/c² (experimental upper limit)
-  Scale factor A = 78.5670267611913
-  Iterations     = 50
+  Mass m         = 125.972189054343 GeV/c²
+  Width Γ        = 2.08632885046561 GeV/c² (experimental upper limit)
+  Scale factor A = 9.87620742854256
+  Iterations     = 9
 Plot data written to plot.dat

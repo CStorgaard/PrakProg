@@ -112,10 +112,10 @@ public class Program
         Func<Vec, double> D = p => Deviation(p, energy, signal, error);
 
         // Set an initial guess: mass ~125 GeV, width ~6 GeV, scale factor ~43.
-        Vec initialGuess = new Vec(new double[] { 125.0, 6.0, 43.0 });
+        Vec initialGuess = new Vec(new double[] { 125.0, 4, 4.8*Math.Pow(4, 2) / 4.0 });
 
         // Perform the minimization/fitting (using default forward differences).
-        Vec bestFit = NewtonMinimizer.Minimize(D, initialGuess, 1e-3, 50, false);
+        Vec bestFit = NewtonMinimizer.Minimize(D, initialGuess, 1e-8, 5000, true);
         double m_fit = bestFit[0];
         double Gamma_fit = bestFit[1];
         double A_fit = bestFit[2];
