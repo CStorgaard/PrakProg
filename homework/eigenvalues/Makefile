@@ -18,6 +18,14 @@ $(LIB_DIR)/matrix.dll: $(LIB_DIR)/matrix.cs $(LIB_DIR)/vec.dll
 	mcs -target:library -out:$(LIB_DIR)/matrix.dll -reference:$(LIB_DIR)/vec.dll $(LIB_DIR)/matrix.cs
 
 ##############################################################################
+# Output: Run main.exe and save its output.
+##############################################################################
+Out.txt: main.exe
+	# run the program under Mono, capture output
+	MONO_PATH=$(LIB_DIR) mono main.exe > Out.txt
+	@echo "Output saved to Out.txt"
+
+##############################################################################
 # 1) Generate data for Δr convergence study (fix rmax=10)
 ##############################################################################
 dr_data.txt: main.exe

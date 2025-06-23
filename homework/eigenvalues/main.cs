@@ -111,18 +111,18 @@ class Program
             (Vec eSorted, Mat VSorted) = Mat.Sort(e, V);
 
             // We print 3 states: n=1,2,3
-            int statesToPlot = 3;
+            int statesToPlot = 2;
             double normConst = 1.0 / Math.Sqrt(dr); // factor for reduced radial wavefunctions
 
             // Print a header line for gnuplot
-            Console.WriteLine("# i   r[i]    f0(r[i])  f0_analytic   f1(r[i])  f1_analytic   f2(r[i])  f2_analytic");
+            Console.WriteLine("# i   r[i]    f0(r[i])  f0_analytic   f1(r[i])  f1_analytic");
 
             for (int i = 0; i < npoints; i++)
             {
                 // Numeric wavefunctions
                 double f0_num = normConst * VSorted[i, 0]; // n=1
                 double f1_num = normConst * VSorted[i, 1]; // n=2
-                double f2_num = normConst * VSorted[i, 2]; // n=3
+                // double f2_num = normConst * VSorted[i, 2]; // n=3
 
                 // Analytic wavefunctions
                 // n=1
@@ -130,13 +130,13 @@ class Program
                 // n=2
                 double f1_ana = (1.0 / Math.Sqrt(2.0)) * (1 - r[i] / 2.0) * r[i] * Math.Exp(-r[i] / 2.0);
                 // n=3 (the 3s state)
-                double f2_ana = (2.0 / (27.0 * Math.Sqrt(3.0)))
-                * r[i]
-                * (27.0 - 18.0*r[i] + 2.0*r[i]*r[i])
-                * Math.Exp(-r[i] / 3.0);
+                // double f2_ana = (2.0 / (27.0 * Math.Sqrt(3.0)))
+                // * r[i]
+                // * (27.0 - 18.0*r[i] + 2.0*r[i]*r[i])
+                // * Math.Exp(-r[i] / 3.0);
 
 
-                Console.WriteLine($"{i} {r[i]} {f0_num} {f0_ana} {f1_num} {f1_ana} {f2_num} {f2_ana}");
+                Console.WriteLine($"{i} {r[i]} {f0_num} {f0_ana} {f1_num} {f1_ana}");
             }
 
             // Optionally print eigenvalues as comments
@@ -148,7 +148,7 @@ class Program
             return;
         }
 
-        // 4) Default: "Exercise A" demonstration (2×2 matrix)
+        // 4) Exercise A
         Console.WriteLine("Exercise A");
         Console.WriteLine("Checking Jacobi diagonalization");
 
