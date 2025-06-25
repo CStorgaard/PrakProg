@@ -18,13 +18,16 @@ class Program
 
         // Build the Hamiltonian matrix
         Mat H = new Mat(npoints, npoints);
+        double diag = -2.0 * (-0.5 / (dr * dr));
+        double off  =  1.0 * (-0.5 / (dr * dr));
+
         for (int i = 0; i < npoints - 1; i++)
         {
-            H[i, i]     = -2 * (-0.5 / (dr * dr));
-            H[i, i + 1] =  1 * (-0.5 / (dr * dr));
-            H[i + 1, i] =  1 * (-0.5 / (dr * dr));
+            H[i, i]     = diag;
+            H[i, i + 1] = off;
+            H[i + 1, i] = off;
         }
-        H[npoints - 1, npoints - 1] = -2 * (-0.5 / (dr * dr));
+        H[npoints - 1, npoints - 1] = diag;
 
         // Add the -1/r potential
         for (int i = 0; i < npoints; i++)
@@ -32,7 +35,7 @@ class Program
 
         // Diagonalize via Jacobi
         (Vec e, Mat V) = Mat.cyclic(H);
-        (Vec eSorted, Mat _) = Mat.Sort(e, V);
+        (Vec eSorted, Mat VSorted) = Mat.Sort(e, V);
 
         return eSorted[0];
     }
@@ -40,9 +43,9 @@ class Program
     static void Main(string[] args)
     {
         // Default parameters
-        double rmax = 10.0;
-        double dr   = 0.3;
-        string study = ""; // possible values: "dr", "rmax", "wavefunction"
+        double rmax  = 15.0;
+        double dr    = 0.2;
+        string study = ""; // "dr", "rmax", or "wavefunction"
 
         // Parse command-line arguments
         foreach (var arg in args)
@@ -79,7 +82,7 @@ class Program
             return;
         }
 
-        // 3) Wavefunction study: numeric + analytic
+        // 3) Wavefunction study: numeric + analytic f₀, f₁, f₂
         if (study == "wavefunction")
         {
             int npoints = (int)(rmax / dr) - 1;
@@ -89,20 +92,22 @@ class Program
                 return;
             }
 
-            // Build the grid
+            // Build the radial grid
             Vec r = new Vec(npoints);
             for (int i = 0; i < npoints; i++)
                 r[i] = dr * (i + 1);
 
-            // Build Hamiltonian
+            // Build Hamiltonian (same as in ComputeGroundState)
             Mat H = new Mat(npoints, npoints);
+            double diag = -2.0 * (-0.5 / (dr * dr));
+            double off  =  1.0 * (-0.5 / (dr * dr));
             for (int i = 0; i < npoints - 1; i++)
             {
-                H[i, i]     = -2 * (-0.5 / (dr * dr));
-                H[i, i + 1] =  1 * (-0.5 / (dr * dr));
-                H[i + 1, i] =  1 * (-0.5 / (dr * dr));
+                H[i, i]     = diag;
+                H[i, i + 1] = off;
+                H[i + 1, i] = off;
             }
-            H[npoints - 1, npoints - 1] = -2 * (-0.5 / (dr * dr));
+            H[npoints - 1, npoints - 1] = diag;
             for (int i = 0; i < npoints; i++)
                 H[i, i] += -1.0 / r[i];
 
@@ -110,45 +115,81 @@ class Program
             (Vec e, Mat V) = Mat.cyclic(H);
             (Vec eSorted, Mat VSorted) = Mat.Sort(e, V);
 
-            // We print 3 states: n=1,2,3
-            int statesToPlot = 2;
-            double normConst = 1.0 / Math.Sqrt(dr); // factor for reduced radial wavefunctions
+            // Prepare storage
+            int    N         = npoints;
+            double normConst = 1.0 / Math.Sqrt(dr);
 
-            // Print a header line for gnuplot
-            Console.WriteLine("# i   r[i]    f0(r[i])  f0_analytic   f1(r[i])  f1_analytic");
+            var f0_num = new double[N];
+            var f1_num = new double[N];
+            var f2_num = new double[N];
+            var f0_ana = new double[N];
+            var f1_ana = new double[N];
+            var f2_ana = new double[N];
 
-            for (int i = 0; i < npoints; i++)
+            // Detect sign flips so numeric and analytic agree at small r
+            bool flip0 = VSorted[0, 0] < 0.0;
+            bool flip1 = VSorted[0, 1] < 0.0;
+            bool flip2 = VSorted[0, 2] < 0.0;
+
+            // Accumulate for discrete normalization of analytic
+            double sum0 = 0.0, sum1 = 0.0, sum2 = 0.0;
+            for (int i = 0; i < N; i++)
             {
-                // Numeric wavefunctions
-                double f0_num = normConst * VSorted[i, 0]; // n=1
-                double f1_num = normConst * VSorted[i, 1]; // n=2
-                // double f2_num = normConst * VSorted[i, 2]; // n=3
+                // numeric reduced wavefunctions
+                f0_num[i] = (flip0 ? -1.0 : +1.0) * (VSorted[i, 0] * normConst);
+                f1_num[i] = (flip1 ? -1.0 : +1.0) * (VSorted[i, 1] * normConst);
+                f2_num[i] = (flip2 ? -1.0 : +1.0) * (VSorted[i, 2] * normConst);
 
-                // Analytic wavefunctions
-                // n=1
-                double f0_ana = 2.0 * r[i] * Math.Exp(-r[i]);
-                // n=2
-                double f1_ana = (1.0 / Math.Sqrt(2.0)) * (1 - r[i] / 2.0) * r[i] * Math.Exp(-r[i] / 2.0);
-                // n=3 (the 3s state)
-                // double f2_ana = (2.0 / (27.0 * Math.Sqrt(3.0)))
-                // * r[i]
-                // * (27.0 - 18.0*r[i] + 2.0*r[i]*r[i])
-                // * Math.Exp(-r[i] / 3.0);
+                // continuous analytic forms
+                // 1s: f₀ ∝ r e^{-r}
+                f0_ana[i] = 2.0 * r[i] * Math.Exp(-r[i]);
+                // 2s: f₁ ∝ (1 - r/2) r e^{-r/2}
+                f1_ana[i] = (1.0 / Math.Sqrt(2.0)) 
+                             * (1.0 - r[i] / 2.0) 
+                             * r[i] 
+                             * Math.Exp(-r[i] / 2.0);
+                // 3s: f₂ ∝ (27 - 18r + 2r²) r e^{-r/3}
+                double c3 = 1.0 / (81.0 * Math.Sqrt(3.0));
+                f2_ana[i] = c3
+                             * r[i]
+                             * (27.0 - 18.0 * r[i] + 2.0 * r[i] * r[i])
+                             * Math.Exp(-r[i] / 3.0);
 
-
-                Console.WriteLine($"{i} {r[i]} {f0_num} {f0_ana} {f1_num} {f1_ana}");
+                // accumulate ∑ f_ana²
+                sum0 += f0_ana[i] * f0_ana[i];
+                sum1 += f1_ana[i] * f1_ana[i];
+                sum2 += f2_ana[i] * f2_ana[i];
             }
 
-            // Optionally print eigenvalues as comments
+            // scale analytic so that Σ f_ana² Δr = 1
+            double scale0 = 1.0 / Math.Sqrt(sum0 * dr);
+            double scale1 = 1.0 / Math.Sqrt(sum1 * dr);
+            double scale2 = 1.0 / Math.Sqrt(sum2 * dr);
+
+            // Print header for Gnuplot
+            Console.WriteLine("# i   r     f0_num    f0_ana    f1_num    f1_ana    f2_num    f2_ana");
+            for (int i = 0; i < N; i++)
+            {
+                Console.WriteLine(
+                    $"{i,3} {r[i],6:F3}  " +
+                    $"{f0_num[i],8:F5}  " +
+                    $"{f0_ana[i] * scale0,8:F5}  " +
+                    $"{f1_num[i],8:F5}  " +
+                    $"{f1_ana[i] * scale1,8:F5}  " +
+                    $"{f2_num[i],8:F5}  " +
+                    $"{f2_ana[i] * scale2,8:F5}"
+                );
+            }
+
+            // Print the first three eigenvalues
             Console.WriteLine("# Eigenvalues:");
-            for (int k = 0; k < statesToPlot; k++)
-            {
-                Console.WriteLine($"# e[{k}] = {eSorted[k]}");
-            }
+            for (int k = 0; k < 3; k++)
+                Console.WriteLine($"# e[{k}] = {eSorted[k]:F8}");
+
             return;
         }
 
-        // 4) Exercise A
+        // 4) Exercise A: test Jacobi diagonalization
         Console.WriteLine("Exercise A");
         Console.WriteLine("Checking Jacobi diagonalization");
 
@@ -169,19 +210,19 @@ class Program
         Console.WriteLine("Normalized eigenvectors:");
         eigenvecs.Print();
 
-        Mat diagMatrix = eigenvecs.Transpose() * symMatrix * eigenvecs;
+        Mat diagMatrix      = eigenvecs.Transpose() * symMatrix * eigenvecs;
         Console.WriteLine("Diagonal matrix:");
         diagMatrix.Print();
 
-        Mat originalMatrix = eigenvecs * diagMatrix * eigenvecs.Transpose();
+        Mat originalMatrix  = eigenvecs * diagMatrix * eigenvecs.Transpose();
         Console.WriteLine("Reconstructed matrix:");
         originalMatrix.Print();
 
-        Mat identityMatrix = eigenvecs * eigenvecs.Transpose();
+        Mat identityMatrix  = eigenvecs * eigenvecs.Transpose();
         Console.WriteLine("V*V^T:");
         identityMatrix.Print();
 
-        identityMatrix = eigenvecs.Transpose() * eigenvecs;
+        identityMatrix      = eigenvecs.Transpose() * eigenvecs;
         Console.WriteLine("V^T*V:");
         identityMatrix.Print();
     }

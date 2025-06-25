@@ -97,31 +97,33 @@ class main
         }
 
         using (var envelopeFile = new StreamWriter("fitEnvelope.txt"))
-        {
+            {
             double tMin = tData[0];
             double tMax = tData[n - 1];
-            int steps   = 100;
-            double dt   = (tMax - tMin) / (steps - 1);
+            int    steps = 100;
+            double dt    = (tMax - tMin) / (steps - 1);
 
             for (int i = 0; i < steps; i++)
             {
                 double T     = tMin + i * dt;
-                double lnFit = c0 + c1 * T;
-                double bestY = Math.Exp(lnFit);
+                double lnFit = c0 + c1 * T;            // best-fit in log-space
+                double bestY = Math.Exp(lnFit);        
 
-                // Variance in y = bestY^2 * [ Cov[0,0] + 2*T*Cov[0,1] + (T^2)*Cov[1,1] ]
-                double varY   = bestY * bestY * (
-                                    Cov[0,0] + 2.0 * T * Cov[0,1] + (T*T) * Cov[1,1]
-                                );
-                double sigmaY = Math.Sqrt(varY);
+                // Variance *in ln(y)* = Cov[0,0] + 2*T*Cov[0,1] + (T^2)*Cov[1,1]
+                double varLn   = Cov[0,0]
+                            + 2.0 * T * Cov[0,1]
+                            + (T * T) * Cov[1,1];
+                double sigmaLn = Math.Sqrt(varLn);
 
-                double yPlus  = bestY + sigmaY;
-                double yMinus = bestY - sigmaY;
+                // Now shift *in ln-space*, then exponentiate
+                double yPlus   = Math.Exp(lnFit + sigmaLn);
+                double yMinus  = Math.Exp(lnFit - sigmaLn);
 
                 // Columns: t, best-fit y, upper band, lower band
-                envelopeFile.WriteLine($"{T} {bestY} {yPlus} {yMinus}");
+                envelopeFile.WriteLine(
+                    $"{T} {bestY} {yPlus} {yMinus}"
+                );
             }
         }
-
     }
 }

@@ -24,7 +24,7 @@ class Program {
             double y1 = net.Derivative(x);
             double y2 = net.SecondDerivative(x);
             double A  = net.AntiDerivative(x);
-            Console.WriteLine($"{x,7:F3}  {gval + 0.1,9:F5}  {y,9:F5}  {y1,9:F5}  {y2,9:F5}  {A,12:F5}");
+            Console.WriteLine($"{x,7:F3}  {gval,9:F5}  {y,9:F5}  {y1,9:F5}  {y2,9:F5}  {A,12:F5}");
         }
     }
 }

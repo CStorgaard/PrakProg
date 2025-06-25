@@ -1,34 +1,28 @@
 Estimating Pi using Monte Carlo integration:
-N = 1: Estimated Pi = 0, Error = 0
+N = 1: Estimated Pi = 4, Error = 0
 N = 1: Product of error and sqrt(N)= 0
 N = 10: Estimated Pi = 2.8, Error = 0.579655069847578
 N = 10: Product of error and sqrt(N)= 1.83303027798234
-N = 100: Estimated Pi = 3, Error = 0.173205080756888
-N = 100: Product of error and sqrt(N)= 1.73205080756888
-N = 1000: Estimated Pi = 3.204, Error = 0.0505013267152458
-N = 1000: Product of error and sqrt(N)= 1.59699217280486
-N = 10000: Estimated Pi = 3.1432, Error = 0.0164106482504501
-N = 10000: Product of error and sqrt(N)= 1.64106482504501
-N = 100000: Estimated Pi = 3.1464, Error = 0.00518243865376137
-N = 100000: Product of error and sqrt(N)= 1.63883099799827
-N = 1000000: Estimated Pi = 3.139244, Error = 0.00164381358689603
-N = 1000000: Product of error and sqrt(N)= 1.64381358689603
-N = 10000000: Estimated Pi = 3.1420892, Error = 0.000519194786110508
-N = 10000000: Product of error and sqrt(N)= 1.64183807339316
-N = 100000000: Estimated Pi = 3.14141364, Error = 0.000164230779771088
-N = 100000000: Product of error and sqrt(N)= 1.64230779771088
+N = 100: Estimated Pi = 3.04, Error = 0.170833252032501
+N = 100: Product of error and sqrt(N)= 1.70833252032501
+N = 1000: Estimated Pi = 3.088, Error = 0.0530684086816253
+N = 1000: Product of error and sqrt(N)= 1.67817043234589
+N = 10000: Estimated Pi = 3.136, Error = 0.016460571071503
+N = 10000: Product of error and sqrt(N)= 1.6460571071503
+N = 100000: Estimated Pi = 3.13824, Error = 0.00520039392969417
+N = 100000: Product of error and sqrt(N)= 1.64450895479471
+N = 1000000: Estimated Pi = 3.14286, Error = 0.00164130162383396
+N = 1000000: Product of error and sqrt(N)= 1.64130162383396
 π estimation results have been written to pi_results.txt
 
 Estimating the integral I using Monte Carlo integration:
-N = 1: Estimated Integral = 1.07496959911865, Error Estimate = 0, Actual error = 0.318234330567028
-N = 10: Estimated Integral = 1.24030339995364, Error Estimate = 0.33724328863703, Actual error = 0.152900529732036
-N = 100: Estimated Integral = 1.58451463134461, Error Estimate = 0.354782789639371, Actual error = 0.191310701658931
-N = 1000: Estimated Integral = 1.94673872558101, Error Estimate = 0.550123323832621, Actual error = 0.553534795895335
-N = 10000: Estimated Integral = 1.4101258235153, Error Estimate = 0.0361534949871762, Actual error = 0.0169218938296212
-N = 100000: Estimated Integral = 1.36818306905259, Error Estimate = 0.0162833491849087, Actual error = 0.0250208606330886
-N = 1000000: Estimated Integral = 1.42728661921181, Error Estimate = 0.0458453255662515, Actual error = 0.0340826895261315
-N = 10000000: Estimated Integral = 1.39921004774567, Error Estimate = 0.00734014062938281, Actual error = 0.00600611805999507
-N = 100000000: Estimated Integral = 1.3951940679347, Error Estimate = 0.00270523366137893, Actual error = 0.00199013824901861
+N = 1: Estimated Integral = 1.05452966766304, Error Estimate = 0, Actual error = 0.338674262022636
+N = 10: Estimated Integral = 0.893732136160448, Error Estimate = 0.0788532508837467, Actual error = 0.499471793525229
+N = 100: Estimated Integral = 1.31761115881726, Error Estimate = 0.0933391728964189, Actual error = 0.0755927708684152
+N = 1000: Estimated Integral = 2.19486007335805, Error Estimate = 0.80033784570143, Actual error = 0.801656143672375
+N = 10000: Estimated Integral = 1.32584155909455, Error Estimate = 0.0185002492003529, Actual error = 0.0673623705911279
+N = 100000: Estimated Integral = 1.37699968160521, Error Estimate = 0.014287350652864, Actual error = 0.0162042480804687
+N = 1000000: Estimated Integral = 1.39872819587322, Error Estimate = 0.0105542952171146, Actual error = 0.00552426618754254
 Integral estimation results have been written to integral_results.txt
 
 Estimating Pi using quasi-random (low-discrepancy) sequence:
@@ -46,10 +40,6 @@ N = 100000: Estimated Pi = 3.14118, Error = 3.9999999999818E-05
 N = 100000: Product of error and sqrt(N)= 0.012649110640616
 N = 1000000: Estimated Pi = 3.141504, Error = 9.6000000000096E-05
 N = 1000000: Product of error and sqrt(N)= 0.096000000000096
-N = 10000000: Estimated Pi = 3.1415898, Error = 1.07999999996444E-05
-N = 10000000: Product of error and sqrt(N)= 0.0341525987286941
-N = 100000000: Estimated Pi = 3.14159368, Error = 2.24000000015323E-06
-N = 100000000: Product of error and sqrt(N)= 0.0224000000015323
 π estimation results using quasi-random sequence have been written to pi_results_quasi.txt
 
 Estimating the integral I using quasi-random (low-discrepancy) sequence:
@@ -60,7 +50,5 @@ N = 1000: Estimated Integral = 1.30337756432937, Error Estimate = 0.035200359041
 N = 10000: Estimated Integral = 1.36787578397404, Error Estimate = 0.0214414020560196, Actual error = 0.025328145711639
 N = 100000: Estimated Integral = 1.3790006444655, Error Estimate = 0.000410251446321863, Actual error = 0.0142032852201763
 N = 1000000: Estimated Integral = 1.3884262053797, Error Estimate = 0.00443782288454453, Actual error = 0.00477772430597834
-N = 10000000: Estimated Integral = 1.39765598920805, Error Estimate = 0.0134429448234341, Actual error = 0.00445205952237493
-N = 100000000: Estimated Integral = 1.39234388004678, Error Estimate = 0.000324476020138679, Actual error = 0.000860049638894189
 Integral estimation results using quasi-random sequence have been written to integral_results_quasi.txt
 Error of quasi-random sequence is significantly smaller than random sequence.

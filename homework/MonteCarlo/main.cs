@@ -60,8 +60,8 @@ class Program
             writer.WriteLine("Samples\tEstimated Pi\tError Estimate\tActual error");
             Console.WriteLine("Estimating Pi using Monte Carlo integration:");
             
-            // Loop over sample sizes from 10^0 to 10^8.
-            for (int exp = 0; exp <= 8; exp++)
+            // Loop over sample sizes from 10^0 to 10^6.
+            for (int exp = 0; exp <= 6; exp++)
             {
                 int N = (int)Pow(10, exp);
                 var result = PlainMC(f, lowerLimits, upperLimits, N);
@@ -98,7 +98,7 @@ class Program
             Console.WriteLine("\nEstimating the integral I using Monte Carlo integration:");
             
             // Loop through sample sizes from 10^0 to 10^8.
-            for (int exp = 0; exp <= 8; exp++)
+            for (int exp = 0; exp <= 6; exp++)
             {
                 int N = (int)Pow(10, exp);
                 var result = PlainMC(f3, lowerLimits3, upperLimits3, N);
@@ -126,7 +126,7 @@ class Program
             Console.WriteLine("\nEstimating Pi using quasi-random (low-discrepancy) sequence:");
 
             // Loop over sample sizes from 10^0 to 10^8.
-            for (int exp = 0; exp <= 8; exp++)
+            for (int exp = 0; exp <= 6; exp++)
             {
                 int N = (int)Pow(10, exp);
                 var result = QMC(f, lowerLimits, upperLimits, N);
@@ -152,7 +152,7 @@ class Program
             Console.WriteLine("\nEstimating the integral I using quasi-random (low-discrepancy) sequence:");
 
             // Loop through sample sizes from 10^0 to 10^8.
-            for (int exp = 0; exp <= 8; exp++)
+            for (int exp = 0; exp <= 6; exp++)
             {
                 int N = (int)Pow(10, exp);
                 var result = QMC(f3, lowerLimits3, upperLimits3, N);

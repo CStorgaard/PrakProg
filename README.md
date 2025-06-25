@@ -1,2 +1,2 @@
 # PrakProg
-All work from the course
+For all homework and exam problems, use make all.
