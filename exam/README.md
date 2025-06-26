@@ -53,7 +53,7 @@ time.svg
 Shows the O(n) relation between number of nodes placed and the evaluation time in ns.
 
 error.svg
-Shows the error between the function f(x) = x + 0.2sin(5x) and the interpolated values, gaps can be seen at node values as we are in log space and error there is 0.
+Shows the absolute error between the function f(x) = x + 0.2sin(5x) and the interpolated values, error goes as expected to 0 at node values. Oscillatory behaviour can be seen for both, where linear exact is better at edges, constant exact has smaller error at middle values.
 
 ## 5. Complexity and Properties
 Precompute weights: O(n)
@@ -61,3 +61,6 @@ Precompute weights: O(n)
 Evaluation cost: O(n) per point
 
 Exactness: constants (first), lines (second).
+
+### 6. Final remarks
+As I have implemented the algorithm, shown the it clearly works in for both interpolators in the interpolator.svg. Shown its advantage of no runge phenomenon in runge.svg, shown the O(n) relation between number of nodes and computation time and found the abosulte error of the interpolators, showing it goes to 0 at the nodes as expected, I believe there is not much left to demonstrate for this exam question. I would therefore mark this project with full points (10pts).
